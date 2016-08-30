@@ -6,16 +6,27 @@
 'fileTypes': [
   'BUILD'
 ]
-'patterns': [
+injections:
+  'source.please-build':
+    patterns: [
+      {
+        include: '#comment'
+      }
+    ]
+patterns: [
   {
-    'match': '^\\s*#.*$'
-    'name': 'comment'
+    include: "#function"
   }
   {
-    include: '#string'
+    include: "#assignment"
   }
 ]
 repository:
+  comment:
+    {
+      match: '^\\s*#.*$'
+      name: 'comment'
+    }
   string:
     patterns: [
       {
@@ -53,3 +64,132 @@ repository:
       1: name: 'plztarget.path'
       2: name: 'storage.plztarget.name'
   }
+
+  number:
+    match: '\\d+'
+    captures:
+      0: name: 'constant.numeric'
+
+  variable:
+    match: '\\w+'
+    captures:
+      0: name: 'variable.other'
+
+  function:
+    name: 'meta.function'
+    begin: '(\\w+)\\s*(\\()'
+    beginCaptures:
+      1: name: 'entity.name.function'
+      2: name: 'punctuation.function.parameters.begin'
+    end: '\\)'
+    endCaptures:
+      0: name: 'punctuation.function.parameters.end'
+    patterns: [
+      {
+        include: '#argument'
+      }
+    ]
+
+  argument:
+    patterns: [
+      {
+        name: 'mata.argument'
+        begin: '(\\w+)\\s*(=)\\s*'
+        beginCaptures:
+          1: name: 'variable.parameter'
+          2: name: 'keyword.operator.assignment'
+        end: ',|\\n'
+        endCaptures:
+          0: name: 'punctuation.separator'
+        patterns: [
+          {
+            include: '#expression'
+          }
+        ]
+      }
+      {
+        include: '#expression'
+      }
+    ]
+
+  assignment:
+    name: 'meta.assignment'
+    begin: '(\\w+)\\s*(=)\\s*'
+    beginCaptures:
+      1: name: 'variable.other'
+      2: name: 'keyword.operator.assignment'
+    end: '(;|\\n)'
+    endCaptures:
+      0: name: 'punctuation.statement.end'
+    patterns: [
+      {
+        include: '#expression'
+      }
+    ]
+
+  array:
+    name: 'meta.array'
+    begin: '\\['
+    beginCaptures:
+      0: name: 'punctuation.array.begin'
+    end: '\\]'
+    endCaptures:
+      0: name: 'punctuation.array.end'
+    patterns: [
+      {
+        include: '#expression'
+      }
+      {
+        match: '\\s*([,])\\s*'
+        captures:
+          1: name: 'punctuation.separator'
+      }
+    ]
+
+  dictionary:
+    name: 'meta.dictionary'
+    begin: '\\{'
+    beginCaptures:
+      0: name: 'punctuation.dictionary.begin'
+    end: '\\s*\\}'
+    endCaptures:
+      0: name: 'punctuation.dictionary.end'
+    patterns: [
+      {
+        include: '#expression'
+      }
+      {
+        match: '\\s*([,:])\\s*'
+        captures:
+          1: name: 'punctuation.separator'
+      }
+    ]
+
+  expression:
+    name: 'meta.expression'
+    contentName: 'meta.expression'
+    patterns: [
+      {
+        include: '#function'
+      }
+      {
+        include: '#array'
+      }
+      {
+        include: '#dictionary'
+      }
+      {
+        include: '#number'
+      }
+      {
+        include: '#variable'
+      }
+      {
+        include: '#string'
+      }
+      {
+        match: '\\+|\\-|\\%'
+        captures:
+          0: name: 'operator'
+      }
+    ]
