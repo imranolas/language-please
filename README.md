@@ -1,3 +1,5 @@
-# PackageName language package
+# Please language package
 
-A short description of your language package.
+[please.build]() language support for atom.
+
+Adds syntax highlighting for targets paths and names.

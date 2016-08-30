@@ -1,12 +1,12 @@
 {
-  "name": "please-language",
+  "name": "language-please",
   "version": "0.0.0",
-  "description": "A short description of your language package",
+  "description": "Please language support for atom",
   "keywords": [
     "language",
     "grammar"
   ],
-  "repository": "https://github.com/imranolas/please-language",
+  "repository": "https://github.com/imranolas/language-please",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
