@@ -62,7 +62,7 @@ repository:
     match: '(\/(?:\/[\-\\w\.\_]*)*){0,1}:([\-\\w\.\_]+)'
     captures:
       1: name: 'plztarget.path'
-      2: name: 'storage.plztarget.name'
+      2: name: 'storage.type.plztarget.name'
   }
 
   number:
