@@ -1,0 +1,4 @@
+'.source.please-build-defs':
+  editor:
+    tabLength: 4,
+    commentStart: '# '

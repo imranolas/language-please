@@ -1,0 +1,4 @@
+'.source.please-build':
+  editor:
+    tabLength: 4,
+    commentStart: '# '
